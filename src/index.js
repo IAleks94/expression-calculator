@@ -4,17 +4,19 @@ function eval() {
 }
 
 function expressionCalculator(expr) {
-  let regExpArrFirst = [/\([^\(]*\)/,
+ // let regExpArrFirst = [/\([^\(]*\)/,
+ let regExpArrFirst = [/\([^\(\)]*\)/,
   /(?<leftNum>\-?\d+(\.\d+)?\b)[\s+]?(?<sing>[/*])[\s+]?(?<rightNum>\-?\d+(\.\d+)?\b)/, 
   /(?<leftNum>\-?\d+(\.\d+)?\b)[\s+]?(?<sing>[+-])[\s+]?(?<rightNum>\-?\d+(\.\d+)?\b)/];
   for (let i = 0; i < 3; i++) {
-  //  console.log('regExpArrFirst ' +regExpArrFirst[i]);
-  //  console.log('expr ' + expr);
+   // console.log('regExpArrFirst ' +regExpArrFirst[i]);
+    //console.log('expr ' + expr);
     let miniExpr = expr.match(regExpArrFirst[i]);
-  // console.log('miniExpr ' +miniExpr);
+  //console.log('miniExpr ' +miniExpr);
     if (i === 0 && miniExpr) {
-      let str = miniExpr[0].match(/[^\(].+[^\)]/)+'';
-   //   console.log('str ' + str);
+      //let str = miniExpr[0].match(/[^\(].+[^\)]/)+'';
+      let str = miniExpr[0].slice(1, -1);
+    //  console.log('str ' + str);
     expr = expr.replace(regExpArrFirst[i],  expressionCalculator(str))+'';
    // console.log('получаем ' + expr);
     return expressionCalculator(expr);
@@ -44,7 +46,7 @@ function expressionCalculator(expr) {
       expr = expr.split(' ').join('');
     return expressionCalculator(expr);
     } else if (isNaN(expr)){
-    //  console.log(expr);
+     console.log(expr);
     throw new Error("ExpressionError: Brackets must be paired");
   }
   
@@ -65,7 +67,7 @@ function expressionCalculator(expr) {
         if (!+right) {
           throw new Error("TypeError: Division by zero.");
         } else {
-          return (+left / +right)+'';
+          return (+left / +right).toFixed(15)+'';
         }
 
         break;
@@ -77,11 +79,11 @@ module.exports = {
   expressionCalculator
 };
 
- // const expr = '((1 + 2) * 3';
-// // const result = -10.0227;
+ //  const expr = " (  38 + 52 + 65 - 19  ) * (  72 * 3 / 36 * (  9 / 2 - 17 * 38 / 28  )  ) / 18 / 84 ";
+// // // const result = -10.0227;
 
-//   let answer = expressionCalculator(expr);
-//    console.log('answer ' +answer);
+  //  let answer = expressionCalculator(expr);
+ //   console.log('answer ' +answer);
 // //   console.log( typeof answer);
 
 
